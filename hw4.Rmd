@@ -1,13 +1,8 @@
 ---
 title: "hw4"
 author: "Andi Liao"
-date: "February 1, 2019"
+date: "February 3, 2019"
 output: html_document
-    toc: true
-    toc_float: true
-    number_sections: true
-    code_folding: hide
-    keep_md: true
 ---
 
 ```{r global_options, include = FALSE}
@@ -19,32 +14,44 @@ knitr::opts_chunk$set(fig.width = 10, fig.height = 8, echo = FALSE, warning = FA
 
 ## Text
 
-
+### g1
 The major source of air polluants in China is sulfur dioxide emitted from factories, because the energy structure is currently dominated by coal. The central government has released a series of policies to control the concentration and emissions of sulfur dioxide. Although AQI is not the best indicator of sulfur dioxide polluation, areas highly polluted by sulfur dioxide are usually suffer from other air pollutants. The paired violin plots illustrate that the air quality index decreases a bit from 2008 to 2011, but then increases greatly from 2011 to 2014. Using the average sulfur dioxide level as cutoff, provinces with higher sulfur dioxide levels have a higher increment in terms of AQI from 2011 to 2014.
 
 
-
+### g2
 The distribution of air pollution are heterogeneous. The dot plot shows the average air quality index grouped by provinces, and indicates that most southern provinces have lower average air quality index value, except for Tibet, which lies in the west plateau region. This finding can be explained by the fact that southern provinces have much denser population, more prosperous economy, warmer climate and higher coverage of vegetation. However, the air pollution is a nationalwide issue, and according to the different circumstances in each province, local governments are supposed to take different actions to help fight against air pollution.
 
 
-
+### g3
 To validate the hypothesis that the severity of air pollution is related with economy and environment, the bubble chart connecting popluation, forest coverage and air quality is presented. It seems that population doesn't affect air quality as much as we supposed, but the forest coverage rate does. Interestingly, provinces with worse air quality all have relatively less forest coverage, but their population vary from low to high. The natrual environment factor plays a key role in air quality here.
 
 
-
-Now let's concentrate on the capital city, Beijing for the next graphs. Beijing lies in the northern part of China, and it is the most populated city in the country. It is also well-known for sandstrom and haze, but the local government has made efforts to reduce the air pollution for the past decades. The polar line chart clearly shows that the weekly average AQI of Beijing from 2014 to 2018 is improving.
-, it can be seen that most of the time the air is fine (below 100, i.e., no need to wear masks). However, there always some terrible days within a single month in the winter and spring, when the local government often take actions to control pollution by published regulations.
-
+### g4
+Now let's concentrate on the capital city, Beijing for the next graphs. Beijing lies in the northern part of China, and it is the most populated city in the country. It is also well-known for sandstrom and haze, but the local government has made efforts to reduce the air pollution for the past decades. The polar line chart clearly shows that the weekly average AQI of Beijing from 2014 to 2018 is improving, as the circle is getting smaller. However, there always some terrible days within a single month in the winter, when the local government often take actions to control pollution by published regulations.
 
 
-Beijing government started a campagin called "changing from coal to gas" in the winter of 2017. The air quality during winter was largerly improved, compared to previous years. However, Beijing still has a long way to go. Comparing the daily average AQI, PM 2.5 and PM 10 in 2018, PM 2.5 and PM 10 are the major contributors to air pollution, thus they have similiar changing tendencies. There was also a breakout of PM 10 in the spring, but the frequency was much lower than the last decade. The cleaning of time series data is in the process, and the comparasion across years will be used to manifest the efforts made by the local government.
+### g5
+Beijing government started a seris of campagin. The one of the largest scale is  called "changing from coal to gas" in the winter of 2017. The air quality was largerly improved after the campagin, compared to previous years. However, Beijing still has a long way to go to reduce the days with heavy pollution.
+
+
+### g6
+If we look at the average PM2.5 concentration of Beijing from 2014 to 2018, breaking down by month and hour, the winter has serious air pollution problem. During the winter, the air quality in the mornings and evenings are worse than afternoons, partically because people need more heat before the sun comes out and after the sun comes down. In the mornings of January, the problem is extremely eye-catching. This might due to the fact that January is the last working month before the Spring Festical, and it is usually the coldest month in Beijing. Actually, it is the horrible pollution in the winter of 2016 that pushes Beijing government to launch the "changing from coal to gas" in the winter of 2017.
+
+
+### g7
+Decomposing the air pollution source(exclusing PM2.5 and PM10), SO2 is not the major pollution source as most other places in China. This is the result of previous efforts of Beijing government of controlling SO2 emission, and this practive can be generalized to other northern cities facing similar air pollution issues.
+
+
 
 
 ## Grpah
 
 ```{r,include = FALSE}
 library(tidyverse)
+library(dplyr) 
+library(lubridate)
 library(ggplot2)
+library(RColorBrewer)
 
 ggpreview <- function(...) {
      fname <- tempfile(fileext = ".pdf")
@@ -74,8 +81,6 @@ south_prov = c(1,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0)
 
 
 ```{r}
-library(RColorBrewer)
-
 wrapper <- function(x, ...) {paste(strwrap(x, ...), collapse = "\n")}
 
 theme_new <- function(base_size = 12,
@@ -226,9 +231,7 @@ ggsave(filename = "g3.pdf", g3, width = 10, height = 8, device = cairo_pdf)
 ```
 
 
-```{r,include = FALSE, echo = FALSE}
-library(tidyverse)
-library(ggplot2)
+```{r,include = FALSE, eval = FALSE}
 
 work_dir = "C:/Users/liaoa/Desktop/CAPP 30239/air/beijing_20140101-20141231"
 setwd(work_dir)
@@ -256,7 +259,10 @@ setwd(work_dir)
 write.csv(old, file = "2014_AQI.csv", row.names = FALSE)
 ```
 
-```{r, include = FALSE, echo = FALSE}
+```{r, include = FALSE, eval = FALSE}
+setwd("C:/Users/liaoa/Desktop/CAPP 30239/air/beijing_20140101-20141231")
+write.csv(old, file = "2014_AQI.csv", row.names = FALSE)
+
 setwd("C:/Users/liaoa/Desktop/CAPP 30239/air/beijing_20150101-20151231")
 write.csv(old, file = "2015_AQI.csv", row.names = FALSE)
 
@@ -271,50 +277,45 @@ write.csv(old, file = "2018_AQI.csv", row.names = FALSE)
 ```
 
 ```{r, include = FALSE}
-library(dplyr) 
 setwd("C:/Users/liaoa/Desktop/CAPP 30239/air")
 
 AQI_2018 = read_csv('2018_AQI.csv')
-AQI_2018 = AQI_2018[which(AQI_2018$metrics == "AQI"),]
+AQI_2017 = read_csv('2017_AQI.csv')
+AQI_2016 = read_csv('2016_AQI.csv')
+AQI_2015 = read_csv('2015_AQI.csv')
+AQI_2014 = read_csv('2014_AQI.csv')
 
 p2018 <-
   AQI_2018 %>%
+    filter(metrics == "AQI") %>% 
     group_by(week = week(as.Date(date, origin = "2018-01-01"))) %>% 
     summarise(AQI = mean(value, na.rm = TRUE)) %>%
     mutate(year = 2018)
 
-AQI_2017 = read_csv('2017_AQI.csv')
-AQI_2017 = AQI_2017[which(AQI_2017$metrics == "AQI"),]
-
 p2017 <-
   AQI_2017 %>%
+    filter(metrics == "AQI") %>% 
     group_by(week = week(as.Date(date, origin = "2017-01-01"))) %>% 
     summarise(AQI = mean(value, na.rm = TRUE)) %>%
     mutate(year = 2017)
 
-AQI_2016 = read_csv('2016_AQI.csv')
-AQI_2016 = AQI_2016[which(AQI_2016$metrics == "AQI"),]
-
 p2016 <-
   AQI_2016 %>%
+    filter(metrics == "AQI") %>%
     group_by(week = week(as.Date(date, origin = "2016-01-01"))) %>% 
     summarise(AQI = mean(value, na.rm = TRUE)) %>%
     mutate(year = 2016)
 
-AQI_2015 = read_csv('2015_AQI.csv')
-AQI_2015 = AQI_2015[which(AQI_2015$metrics == "AQI"),]
-
 p2015 <-
   AQI_2015 %>%
+    filter(metrics == "AQI") %>%
     group_by(week = week(as.Date(date, origin = "2015-01-01"))) %>% 
     summarise(AQI = mean(value, na.rm = TRUE)) %>%
     mutate(year = 2015)
 
-AQI_2014 = read_csv('2014_AQI.csv')
-AQI_2014 = AQI_2014[which(AQI_2014$metrics == "AQI"),]
-
 p2014 <-
   AQI_2014 %>%
+    filter(metrics == "AQI") %>%
     group_by(week = week(as.Date(date, origin = "2014-01-01"))) %>% 
     summarise(AQI = mean(value, na.rm = TRUE)) %>%
     mutate(year = 2014)
@@ -325,11 +326,6 @@ p = rbind(p2014, p2015, p2016, p2017, p2018)
 ```{r out.width = "1000px", out.height = "800px", warning = FALSE}
 g4 <-
   p %>% 
-  #filter(metrics == "AQI") %>%
-  #group_by(date) %>%
-  #summarise(AQI = mean(value)) %>%
-  #ggplot(aes(x = date, y = AQI)) +
-  #geom_bar(stat = "identity", fill = alpha("blue", 0.3)) +
   ggplot(aes(x = week, y = AQI, color = factor(year))) +
   geom_line(group = 1) +
   facet_grid(cols = vars(year)) +
@@ -353,63 +349,52 @@ g4
 ggsave(filename = "g4.pdf", g4, width = 10, height = 8, device = cairo_pdf)
 ```
 
-```{r}
-AQI_2018 = read_csv('2018_AQI.csv')
-AQI_2018 = AQI_2018[which(AQI_2018$metrics == "PM2.5"),]
-
-p2018 <-
+```{r include = FALSE}
+q2018 <-
   AQI_2018 %>%
+    filter(metrics == "PM2.5") %>%
     group_by(week = week(as.Date(date, origin = "2018-01-01"))) %>% 
-    summarise(AQI = mean(value, na.rm = TRUE)) %>%
+    summarise(PM2.5 = mean(value, na.rm = TRUE)) %>%
     mutate(year = 2018)
 
-AQI_2017 = read_csv('2017_AQI.csv')
-AQI_2017 = AQI_2017[which(AQI_2017$metrics == "PM2.5"),]
-
-p2017 <-
+q2017 <-
   AQI_2017 %>%
+    filter(metrics == "PM2.5") %>%
     group_by(week = week(as.Date(date, origin = "2017-01-01"))) %>% 
-    summarise(AQI = mean(value, na.rm = TRUE)) %>%
+    summarise(PM2.5 = mean(value, na.rm = TRUE)) %>%
     mutate(year = 2017)
 
-AQI_2016 = read_csv('2016_AQI.csv')
-AQI_2016 = AQI_2016[which(AQI_2016$metrics == "PM2.5"),]
-
-p2016 <-
+q2016 <-
   AQI_2016 %>%
+    filter(metrics == "PM2.5") %>%
     group_by(week = week(as.Date(date, origin = "2016-01-01"))) %>% 
-    summarise(AQI = mean(value, na.rm = TRUE)) %>%
+    summarise(PM2.5 = mean(value, na.rm = TRUE)) %>%
     mutate(year = 2016)
 
-AQI_2015 = read_csv('2015_AQI.csv')
-AQI_2015 = AQI_2015[which(AQI_2015$metrics == "PM2.5"),]
-
-p2015 <-
+q2015 <-
   AQI_2015 %>%
+    filter(metrics == "PM2.5") %>%  
     group_by(week = week(as.Date(date, origin = "2015-01-01"))) %>% 
-    summarise(AQI = mean(value, na.rm = TRUE)) %>%
+    summarise(PM2.5 = mean(value, na.rm = TRUE)) %>%
     mutate(year = 2015)
 
-AQI_2014 = read_csv('2014_AQI.csv')
-AQI_2014 = AQI_2014[which(AQI_2014$metrics == "PM2.5"),]
-
-p2014 <-
+q2014 <-
   AQI_2014 %>%
+    filter(metrics == "PM2.5") %>% 
     group_by(week = week(as.Date(date, origin = "2014-01-01"))) %>% 
-    summarise(AQI = mean(value, na.rm = TRUE)) %>%
+    summarise(PM2.5 = mean(value, na.rm = TRUE)) %>%
     mutate(year = 2014)
 
-p = rbind(p2014, p2015, p2016, p2017, p2018)
-colnames(p)[2] = "PM2.5"
-p["seq"] = row.names(p)
-p$seq = as.numeric(p$seq)
+q = rbind(q2014, q2015, q2016, q2017, q2018)
+q["seq"] = row.names(q)
+q$seq = as.numeric(q$seq)
 ```
 
 
 
-```{r, warning = FALSE}
+```{r, out.width = "1000px", out.height = "800px", warning = FALSE}
 g5 <-
-  p %>%
+  q %>%
   ggplot(aes(x = seq, y = PM2.5)) +
   geom_step(size = 0.5, color = "#92AAC7") + 
   ylim (20, 400) + 
@@ -434,13 +419,145 @@ g5
 ggsave(filename = "g5.pdf", g5, width = 10, height = 8, device = cairo_pdf)
 ```
 
-```{r}
-AQI_2018 = read_csv('2018_AQI.csv')
-AQI_2018 = AQI_2018[which(AQI_2018$metrics == "PM2.5"),]
+```{r ,out.width = "1000px", out.height = "800px", warning = FALSE}
+p = rbind(AQI_2018, AQI_2017, AQI_2016, AQI_2015, AQI_2014)
+p$date = ymd(p$date)
+
+g6 <-
+  p %>%
+  filter(metrics == "PM2.5") %>%
+  group_by(hour, bigmonth = month(date)) %>%
+  summarise(PM2.5 = mean(value, na.rm = TRUE)) %>%
+  ggplot(aes(x = as.factor(hour), y = as.factor(bigmonth), fill = PM2.5)) + 
+  geom_tile() + 
+  scale_fill_gradient(low = "white",high = "#929292") +
+  theme_new() +
+  labs(
+    title = wrapper("The concentration of PM 2.5 is highest in the mornings of January.", width = 70),
+    subtitle = wrapper("This is the average PM2.5 concentration of Beijing from 2014 to 2018, breaking down by month and hour. The winter has worse air quality, especially in the mornings of January", width = 100),
+    caption = "National Urban Air Quality in Real-Time Publishing Platform",
+    x = "Hour", 
+    y = "Month") 
+
+g6
+ggsave(filename = "g6.pdf", g6, width = 10, height = 8, device = cairo_pdf)
 ```
 
 
-```{r}
+```{r,include = FALSE, eval = FALSE}
+work_dir = "C:/Users/liaoa/Desktop/CAPP 30239/air/2018_extra"
+setwd(work_dir)
 
+  files <- list.files() 
+  old = data.frame()
+  for (i in 1:length(files)) {
+    if(file.info(files[i])$size > 200){
+      new <- read_csv(files[i]) %>% 
+        filter(!grepl("_24h$", type)) %>%
+        ungroup() %>%
+        mutate(avg = rowMeans(.[,4:38], na.rm = TRUE)) %>% 
+        select(-c(4:38))
+      new = data.frame(matrix(unlist(new), nrow = dim(new)[1], byrow = F), stringsAsFactors = FALSE)
+      old = rbind(new, old)
+    }
+  }
+  
+  old = as.data.frame(matrix(unlist(old), nrow = dim(old)[1], byrow = F), stringsAsFactors = FALSE)
+  old = as.data.frame(old, col.names = c("date", "hour", "metrics", "value"))
+  
+  colnames(old) = c("date", "hour", "metrics", "value")
+  old$value = as.numeric(old$value)
+
+write.csv(old, file = "2018_extra.csv", row.names = FALSE)
+```
+
+```{r, include = FALSE, eval = FALSE}
+setwd("C:/Users/liaoa/Desktop/CAPP 30239/air/2014_extra")
+write.csv(old, file = "2014_extra.csv", row.names = FALSE)
+
+setwd("C:/Users/liaoa/Desktop/CAPP 30239/air/2015_extra")
+write.csv(old, file = "2015_extra.csv", row.names = FALSE)
+
+setwd("C:/Users/liaoa/Desktop/CAPP 30239/air/2016_extra")
+write.csv(old, file = "2016_extra.csv", row.names = FALSE)
+
+setwd("C:/Users/liaoa/Desktop/CAPP 30239/air/2017_extra")
+write.csv(old, file = "2017_extra.csv", row.names = FALSE)
+
+setwd("C:/Users/liaoa/Desktop/CAPP 30239/air/2018_extra")
+write.csv(old, file = "2018_extra.csv", row.names = FALSE)
+```
+
+```{r, include = FALSE}
+setwd("C:/Users/liaoa/Desktop/CAPP 30239/air")
+
+extra_2018 = read_csv('2018_extra.csv')
+extra_2017 = read_csv('2017_extra.csv')
+extra_2016 = read_csv('2016_extra.csv')
+extra_2015 = read_csv('2015_extra.csv')
+extra_2014 = read_csv('2014_extra.csv')
+
+e2018 <-
+  extra_2018 %>%
+    group_by(metrics, week = week(as.Date(date, origin = "2018-01-01"))) %>% 
+    summarise(value = mean(value, na.rm = TRUE)) %>%
+    mutate(year = 2018)
+
+e2017 <-
+  extra_2017 %>%
+    group_by(metrics, week = week(as.Date(date, origin = "2017-01-01"))) %>% 
+    summarise(value = mean(value, na.rm = TRUE)) %>%
+    mutate(year = 2017)
+
+e2016 <-
+  extra_2016 %>%
+    group_by(metrics, week = week(as.Date(date, origin = "2016-01-01"))) %>% 
+    summarise(value = mean(value, na.rm = TRUE)) %>%
+    mutate(year = 2016)
+
+e2015 <-
+  extra_2017 %>%
+    group_by(metrics, week = week(as.Date(date, origin = "2015-01-01"))) %>% 
+    summarise(value = mean(value, na.rm = TRUE)) %>%
+    mutate(year = 2015)
+
+e2014 <-
+  extra_2014 %>%
+    group_by(metrics, week = week(as.Date(date, origin = "2014-01-01"))) %>% 
+    summarise(value = mean(value, na.rm = TRUE)) %>%
+    mutate(year = 2014)
+
+e = rbind(e2014, e2015, e2016, e2017, e2018)
+e["seq"] = row.names(e)
+e$seq = as.numeric(e$seq)
+```
+
+```{r, out.width = "1000px", out.height = "800px", warning = FALSE}
+g7 <-
+  e %>% 
+  group_by(metrics, week) %>%
+  summarize(value = mean(value, na.rm = TRUE)) %>%
+  mutate(newvalue = ifelse(metrics == "CO" |metrics == "SO2", value * 5, value)) %>%
+  ggplot(aes(x = week, y = newvalue)) +
+  facet_grid(cols = vars(metrics)) +
+  geom_bar(stat = "identity", fill = "#EC96A4", color = "#929292") +
+  coord_polar(start = 0) +
+  scale_x_continuous(breaks = seq(1, 52, 13)) +
+  theme_new() +
+  theme(
+    axis.line = element_blank(),
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()) +
+  labs(
+    title = wrapper("The major polluant source in Beijing from 2014 to 2018 is not S02.", width = 80),
+    subtitle = wrapper("Although SO2 is considered as the most serious source of air pollution in China, it is not the case in Beijing.", width = 110),
+    caption = "National Urban Air Quality in Real-Time Publishing Platform",
+    x = "Time", 
+    y = "Value",
+    fill = "Pollutant") 
+
+g7
+ggsave(filename = "g7.pdf", g7, width = 10, height = 8, device = cairo_pdf)
 ```
 
