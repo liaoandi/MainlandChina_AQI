@@ -9,5 +9,10 @@ Use ./data/environment_index_province.csv to generate three graphs in hw2.Rmd.
 
 ## 2019-01-27:
 Exploratory Data Visualizations - Short Paper
-Use ./data/environment_index_province.csv to generate three graphs in hw3.Rmd.
+Use ./data/environment_index_province.csv to generate five graphs in hw3.Rmd.
 Time series data is being processed.
+
+
+## 2019-02-03:
+Theming & Design of Static Graphics
+Use ./data/AQI and ./data/extra files to generate seven graphs in hw4.Rmd.
