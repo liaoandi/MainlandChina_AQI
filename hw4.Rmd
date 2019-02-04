@@ -3,10 +3,11 @@ title: "hw4"
 author: "Andi Liao"
 date: "February 3, 2019"
 output: html_document
+code_folding: hide
 ---
 
 ```{r global_options, include = FALSE}
-knitr::opts_chunk$set(fig.width = 10, fig.height = 8, echo = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(fig.width = 10, fig.height = 8, echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
 
@@ -80,7 +81,7 @@ south_prov = c(1,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0)
 ```
 
 
-```{r}
+```{r, include = FALSE}
 wrapper <- function(x, ...) {paste(strwrap(x, ...), collapse = "\n")}
 
 theme_new <- function(base_size = 12,
@@ -349,7 +350,7 @@ g4
 ggsave(filename = "g4.pdf", g4, width = 10, height = 8, device = cairo_pdf)
 ```
 
-```{r include = FALSE}
+```{r,include = FALSE}
 q2018 <-
   AQI_2018 %>%
     filter(metrics == "PM2.5") %>%
